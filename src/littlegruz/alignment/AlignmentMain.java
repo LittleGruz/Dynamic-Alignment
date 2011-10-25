@@ -44,8 +44,8 @@ public class AlignmentMain extends JavaPlugin{
          while(it.hasNext()){
             Entry<String, Deed> mp = it.next();
             bw.write(mp.getValue().getName() + " "
-                  + mp.getValue().getGood() + " "
-                  + mp.getValue().getBad() + "\n");
+                  + Integer.toString(mp.getValue().getGood()) + " "
+                  + Integer.toString(mp.getValue().getBad()) + "\n");
          }
          bw.close();
       }catch(IOException e){
@@ -60,9 +60,9 @@ public class AlignmentMain extends JavaPlugin{
          while(it.hasNext()){
             Entry<String, AlignedPlayer> mp = it.next();
             bw.write(mp.getValue().getName() + " "
-                  + mp.getValue().getGood() + " "
-                  + mp.getValue().getBad() + " "
-                  + mp.getValue().getRank() + "\n");
+                  + Integer.toString(mp.getValue().getGood()) + " "
+                  + Integer.toString(mp.getValue().getBad()) + " "
+                  + Integer.toString(mp.getValue().getRank()) + "\n");
          }
          bw.close();
       }catch(IOException e){
@@ -76,11 +76,12 @@ public class AlignmentMain extends JavaPlugin{
       new File(getDataFolder().toString()).mkdir();
       alignmentFile = new File(getDataFolder().toString() + "/deedAlignments.txt");
       playerFile = new File(getDataFolder().toString() + "/playerData.txt");
-      
+
+      BufferedReader br;
       //Load the alignment data
       alignmentMap = new HashMap<String, Deed>();
       try{
-         BufferedReader br = new BufferedReader(new FileReader(alignmentFile));
+         br = new BufferedReader(new FileReader(alignmentFile));
          StringTokenizer st;
          String input;
          String name;
@@ -90,33 +91,34 @@ public class AlignmentMain extends JavaPlugin{
             }
             st = new StringTokenizer(input, " ");
             name = st.nextToken();
-            alignmentMap.put(name, new Deed(name, Integer.getInteger(st.nextToken()), Integer.getInteger(st.nextToken())));
+            alignmentMap.put(name, new Deed(name, Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
          }
+         br.close();
          
       }catch(FileNotFoundException e){
          log.info("No original alignment file, a new one will be created.");
-         //Load default values if no file found
-         alignmentMap.put("PlayerKill", new Deed("PlayerKill", 0, 0));
-         alignmentMap.put("MonsterKill", new Deed("MonsterKill", 0, 0));
-         alignmentMap.put("Give", new Deed("Give", 0, 0));
+         alignmentFileInit();
       }catch(IOException e){
          log.info("Error reading alignment file");
+         alignmentFileInit();
       }catch(Exception e){
          log.info("Incorrectly formatted alignment file");
+         alignmentFileInit();
       }
       
       //Load the player data
       playerMap = new HashMap<String, AlignedPlayer>();
       try{
-         BufferedReader br = new BufferedReader(new FileReader(playerFile));
+         br = new BufferedReader(new FileReader(playerFile));
          StringTokenizer st;
          String input;
          String name;
          while((input = br.readLine()) != null){
             st = new StringTokenizer(input, " ");
             name = st.nextToken();
-            playerMap.put(name, new AlignedPlayer(name, Integer.getInteger(st.nextToken()), Integer.getInteger(st.nextToken()), Integer.getInteger(st.nextToken())));
+            playerMap.put(name, new AlignedPlayer(name, Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
          }
+         br.close();
          
       }catch(FileNotFoundException e){
          log.info("No original player file, a new one will be created.");
@@ -138,19 +140,19 @@ public class AlignmentMain extends JavaPlugin{
       if(commandLabel.compareToIgnoreCase("displayladder") == 0){
          Iterator<Map.Entry<String, AlignedPlayer>> it = playerMap.entrySet().iterator();
 
-         sender.sendMessage("Name--GoodScale--BadScale--Rank");
+         sender.sendMessage("Name/+/-/Rank");
          while(it.hasNext()){
             Entry<String, AlignedPlayer> mp = it.next();
-            sender.sendMessage(mp.getValue().getName() + "--" + mp.getValue().getGood() + "--" + mp.getValue().getBad() + "--" + mp.getValue().getRank());
+            sender.sendMessage(mp.getValue().getName() + "/" + mp.getValue().getGood() + "/" + mp.getValue().getBad() + "/" + mp.getValue().getRank());
          }
       }
       else if(commandLabel.compareToIgnoreCase("displaydeeds") == 0){
          Iterator<Map.Entry<String, Deed>> it = alignmentMap.entrySet().iterator();
 
-         sender.sendMessage("Name--GoodScale--BadScale");
+         sender.sendMessage("Name/+/-");
          while(it.hasNext()){
             Entry<String, Deed> mp = it.next();
-            sender.sendMessage(mp.getValue().getName() + "--" + mp.getValue().getGood() + "--" + mp.getValue().getBad());
+            sender.sendMessage(mp.getValue().getName() + "/" + mp.getValue().getGood() + "/" + mp.getValue().getBad());
          }
       }
       return true;
@@ -162,5 +164,13 @@ public class AlignmentMain extends JavaPlugin{
 
    public HashMap<String, AlignedPlayer> getPlayerMap(){
       return playerMap;
+   }
+   
+   private void alignmentFileInit(){
+      //Load default values if no file found
+      alignmentMap.put("PlayerKill", new Deed("PlayerKill", 0, 0));
+      alignmentMap.put("MonsterKill", new Deed("MonsterKill", 0, 0));
+      alignmentMap.put("AnimalKill", new Deed("AnimalKill", 0, 0));
+      alignmentMap.put("GiveItem", new Deed("Give", 0, 0));
    }
 }
