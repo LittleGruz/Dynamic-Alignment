@@ -1,0 +1,10 @@
+name: Dynamic Alignment
+main: littlegruz.alignment.AlignmentMain
+version: 0.1
+commands:
+   displayladder:
+      description: Displays the list of players in ranking order.
+      usage: /displayladder
+   displaydeeds:
+      description: Displays the list of deeds and their ranking effect.
+      usage: /displaydeeds
