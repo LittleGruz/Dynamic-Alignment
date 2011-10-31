@@ -131,7 +131,7 @@ public class AlignmentMain extends JavaPlugin{
       //Set up the listeners
       PluginManager pm = this.getServer().getPluginManager();
       pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Event.Priority.Normal, this);
+      pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
       
       log.info("Dynamic Alignment v0.1 is enabled");
    }
@@ -164,6 +164,12 @@ public class AlignmentMain extends JavaPlugin{
 
    public HashMap<String, AlignedPlayer> getPlayerMap(){
       return playerMap;
+   }
+   
+   public void assignAlignments(AlignedPlayer ap, Deed deed){
+      ap.setGood(ap.getGood() + deed.getGood());
+      ap.setBad(ap.getBad() + deed.getBad());
+      ap.generateRank(deed.getGood(), deed.getBad());
    }
    
    private void alignmentFileInit(){

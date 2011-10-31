@@ -28,21 +28,17 @@ public class DeedEntityListener extends EntityListener{
             Deed deed;
             if(event.getEntity() instanceof Player){
                deed = plugin.getAlignmentMap().get("PlayerKill");
-               ap.setGood(ap.getGood() + deed.getGood());
-               ap.setBad(ap.getBad() + deed.getBad());
-               ap.generateRank(deed.getGood(), deed.getBad());
+               plugin.assignAlignments(ap, deed);
                plugin.getServer().broadcastMessage("Fatality!");
             }
             else if(event.getEntity() instanceof Monster){
                deed = plugin.getAlignmentMap().get("MonsterKill");
-               ap.setGood(ap.getGood() + deed.getGood());
-               ap.setBad(ap.getBad() + deed.getBad());
+               plugin.assignAlignments(ap, deed);
                plugin.getServer().broadcastMessage("M-m-m-m-m-monster kill!");
             }
             else if(event.getEntity() instanceof Animals){
                deed = plugin.getAlignmentMap().get("AnimalKill");
-               ap.setGood(ap.getGood() + deed.getGood());
-               ap.setBad(ap.getBad() + deed.getBad());
+               plugin.assignAlignments(ap, deed);
                plugin.getServer().broadcastMessage("Animal kill!");
             }
          }
