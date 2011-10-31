@@ -30,6 +30,7 @@ public class DeedEntityListener extends EntityListener{
                deed = plugin.getAlignmentMap().get("PlayerKill");
                ap.setGood(ap.getGood() + deed.getGood());
                ap.setBad(ap.getBad() + deed.getBad());
+               ap.generateRank(deed.getGood(), deed.getBad());
                plugin.getServer().broadcastMessage("Fatality!");
             }
             else if(event.getEntity() instanceof Monster){
