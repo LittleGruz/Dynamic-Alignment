@@ -15,7 +15,6 @@ public class DeedPlayerListener extends PlayerListener{
    
    public void onPlayerJoin(PlayerJoinEvent event){
       if(plugin.getPlayerMap().get(event.getPlayer().getName()) == null){
-         plugin.getServer().broadcastMessage(event.getPlayer().getName());
          plugin.getPlayerMap().put(event.getPlayer().getName(), new AlignedPlayer(event.getPlayer().getName(), 0, 0, 0));
       }
    }

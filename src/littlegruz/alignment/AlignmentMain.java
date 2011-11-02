@@ -137,7 +137,10 @@ public class AlignmentMain extends JavaPlugin{
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+      //Add command for a top 10 and bottom 10
       if(commandLabel.compareToIgnoreCase("displayladder") == 0){
+         //Need to copy into a new array, sorted and the display in parts
+         
          Iterator<Map.Entry<String, AlignedPlayer>> it = playerMap.entrySet().iterator();
 
          sender.sendMessage("Name/+/-/Rank");

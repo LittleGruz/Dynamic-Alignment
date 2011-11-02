@@ -29,17 +29,17 @@ public class DeedEntityListener extends EntityListener{
             if(event.getEntity() instanceof Player){
                deed = plugin.getAlignmentMap().get("PlayerKill");
                plugin.assignAlignments(ap, deed);
-               plugin.getServer().broadcastMessage("Fatality!");
+               //plugin.getServer().broadcastMessage("Fatality!");
             }
             else if(event.getEntity() instanceof Monster){
                deed = plugin.getAlignmentMap().get("MonsterKill");
                plugin.assignAlignments(ap, deed);
-               plugin.getServer().broadcastMessage("M-m-m-m-m-monster kill!");
+               //plugin.getServer().broadcastMessage("M-m-m-m-m-monster kill!");
             }
             else if(event.getEntity() instanceof Animals){
                deed = plugin.getAlignmentMap().get("AnimalKill");
                plugin.assignAlignments(ap, deed);
-               plugin.getServer().broadcastMessage("Animal kill!");
+               //plugin.getServer().broadcastMessage("Animal kill!");
             }
          }
       }
